@@ -1,0 +1,42 @@
+version: 2.1
+orbs:
+  win: circleci/windows@2.3.0
+
+workflows:
+  workflow:
+    jobs:
+     - macos
+     - windows
+     - docker
+     - linux
+
+jobs:
+  macos:
+    macos:
+      xcode: "11.3.0"
+    steps:
+      - checkout
+      - run: echo 'Hello, macOS'
+      - run: uname
+
+  windows:
+    executor: win/default
+    steps:
+      - checkout
+      - run: echo 'Hello, Windows'
+      - run: uname
+
+  docker:
+    docker:
+      - image: cimg/base:edge-20.04
+    steps:
+      - checkout
+      - run: echo 'Hello, Docker'
+      - run: uname
+
+  linux:
+    machine: true
+    steps:
+      - checkout
+      - run: echo 'Hello, Linux'
+      - run: uname
